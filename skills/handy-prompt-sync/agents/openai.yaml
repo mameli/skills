@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handy Prompt Sync"
+  short_description: "Safely sync local prompts into Handy"
+  default_prompt: "Use $handy-prompt-sync to update Handy with the prompts from my handy-config repository."
