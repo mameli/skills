@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube to Obsidian"
+  short_description: "Turn a YouTube video into a structured source note in _Wiki/raw"
+  default_prompt: "Extract this YouTube video with yt-dlp, use the transcript only as working material, and create a structured Markdown source note in my Obsidian vault _Wiki/raw folder. Do not create a note in _Wiki/wiki and do not include or reference the transcript in the raw note."

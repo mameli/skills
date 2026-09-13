@@ -1,0 +1,4 @@
+interface:
+  display_name: "Markdown to PDF Export"
+  short_description: "Export Markdown files to PDF using Pandoc"
+  default_prompt: "Convert a Markdown file to PDF using the standard Pandoc settings in this skill."

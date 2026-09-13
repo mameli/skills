@@ -1,0 +1,5 @@
+interface:
+  display_name: "YAGNI"
+  short_description: "Semplifica il codice solo su richiesta esplicita"
+policy:
+  allow_implicit_invocation: false

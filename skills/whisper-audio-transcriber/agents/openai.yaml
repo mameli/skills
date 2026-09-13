@@ -1,0 +1,4 @@
+interface:
+  display_name: "Whisper Audio Transcriber"
+  short_description: "Transcribe audio with whisper-cpp"
+  default_prompt: "Use $whisper-audio-transcriber to transcribe this local audio file with whisper-cpp, defaulting to Italian unless I say English."

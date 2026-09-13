@@ -1,0 +1,7 @@
+.DS_Store
+**/.runtime/
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/last-error.log
