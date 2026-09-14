@@ -1,0 +1,4 @@
+interface:
+  display_name: "VTT Transcript Recap"
+  short_description: "Clean local .vtt transcripts, review ASR errors, and produce structured meeting or study notes."
+  default_prompt: "Process this local .vtt transcript: validate and clean it, identify likely transcription errors for approval, then produce a structured recap or study document with decisions, action items, open questions, and Q&A when supported by the source."
