@@ -40,10 +40,10 @@ commit and push them, then run the update command on each device.
 - `italian-english-translator`: Translate between Italian and English.
 - `markdown-to-pdf-export`: Export Markdown with a compact Pandoc/XeLaTeX profile.
 - `playwright-cli`: Automate a browser when Playwright CLI is explicitly requested.
+- `vtt-transcript-recap`: Validate local VTT transcripts, review ASR corrections, and produce meeting recaps or study documents.
 - `whisper-audio-transcriber`: Transcribe local audio with whisper.cpp.
 - `yagni`: Apply explicit YAGNI-focused simplification to software work.
 - `youtube-to-obsidian-raw`: Capture a YouTube video as an Obsidian source note.
-- `vtt-transcript-recap`: Validate local VTT transcripts, review ASR corrections, and produce meeting recaps or study documents.
 
 ## Layout
 

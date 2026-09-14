@@ -10,9 +10,9 @@ import re
 import sys
 from pathlib import Path
 
+TIMESTAMP = r"(?:\d+:\d{2}:\d{2}\.\d{3}|\d{2}:\d{2}\.\d{3})"
 TIMING_RE = re.compile(
-    r"^\s*(?P<start>\d{2}:\d{2}:\d{2}\.\d{3})\s+-->\s+"
-    r"(?P<end>\d{2}:\d{2}:\d{2}\.\d{3})(?:\s+.*)?\s*$"
+    rf"^\s*(?P<start>{TIMESTAMP})\s+-->\s+(?P<end>{TIMESTAMP})(?:\s+.*)?\s*$"
 )
 TAG_RE = re.compile(r"<[^>]+>")
 
@@ -34,6 +34,7 @@ def parse_vtt(path: Path) -> dict:
         raise ValueError("Invalid WebVTT header: expected WEBVTT")
 
     entries = []
+    malformed_timing_lines = 0
     idx = 0
     n = len(lines)
 
@@ -59,6 +60,12 @@ def parse_vtt(path: Path) -> dict:
         timing_match = TIMING_RE.match(timing_line)
 
         if not timing_match:
+            if "-->" in timing_line:
+                malformed_timing_lines += 1
+                idx += 1
+                while idx < n and lines[idx].strip():
+                    idx += 1
+                continue
             cue_id = timing_line
             idx += 1
             if idx >= n:
@@ -66,6 +73,8 @@ def parse_vtt(path: Path) -> dict:
             timing_line = lines[idx].strip()
             timing_match = TIMING_RE.match(timing_line)
             if not timing_match:
+                if "-->" in timing_line:
+                    malformed_timing_lines += 1
                 while idx < n and lines[idx].strip():
                     idx += 1
                 continue
@@ -96,8 +105,9 @@ def parse_vtt(path: Path) -> dict:
 
     return {
         "path": str(path),
-        "cue_count": len(entries),
+        "cue_count": len(entries) + malformed_timing_lines,
         "consumed_count": len(entries),
+        "malformed_timing_lines": malformed_timing_lines,
         "non_empty_cues": len(non_empty_entries),
         "empty_cues": len(entries) - len(non_empty_entries),
         "entries": entries,
@@ -145,6 +155,7 @@ def main() -> int:
             "path": parsed["path"],
             "cue_count": parsed["cue_count"],
             "consumed_count": parsed["consumed_count"],
+            "malformed_timing_lines": parsed["malformed_timing_lines"],
             "non_empty_cues": parsed["non_empty_cues"],
             "empty_cues": parsed["empty_cues"],
         }

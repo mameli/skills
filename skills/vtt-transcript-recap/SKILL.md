@@ -21,7 +21,7 @@ python3 <skill-dir>/scripts/parse_vtt.py "/absolute/path/to/file.vtt" --format t
 python3 <skill-dir>/scripts/parse_vtt.py "/absolute/path/to/file.vtt" --format json
 ```
 
-3. Check that `cue_count == consumed_count`. If they differ, report the loss and stop before generating documentation.
+3. Check that `cue_count == consumed_count`. A mismatch means `malformed_timing_lines` cues were dropped; report the loss and stop before generating documentation.
 4. Never modify the original VTT. Preserve the source path for the final report.
 
 The parser removes timestamps, HTML tags, cue formatting and empty cues. Use its cleaned text as the working transcript. Do not invent speaker names when the VTT does not contain them.
@@ -92,11 +92,3 @@ Use the execution date for `YYYY-MM-DD` unless the user specifies another output
 - Use Markdown headings, tables, numbered steps and Mermaid only when they improve clarity.
 - A Q&A section is conditional: include it only when explicit questions or answerable question-and-answer exchanges are present.
 - If the transcript contains no actionable meeting content, produce a coherent article or study note instead of forcing a meeting recap.
-
-## Command reference
-
-```bash
-python3 <skill-dir>/scripts/parse_vtt.py "/absolute/path/to/file.vtt" --stats-only
-python3 <skill-dir>/scripts/parse_vtt.py "/absolute/path/to/file.vtt" --format text
-python3 <skill-dir>/scripts/parse_vtt.py "/absolute/path/to/file.vtt" --format json
-```

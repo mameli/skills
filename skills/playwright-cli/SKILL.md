@@ -19,7 +19,7 @@ playwright-cli -s=task-name screenshot --filename=page.png
 playwright-cli -s=task-name close
 ```
 
-Close only sessions created for the task. An existing CDP-attached browser is not task-owned: preserve it, its cookies, persistent profiles and unrelated tabs. Do not use global cleanup or delete profiles as routine recovery. Maoty uses its own direct-CDP helper, not this CLI.
+Close only sessions created for the task. An existing CDP-attached browser is not task-owned: preserve it, its cookies, persistent profiles and unrelated tabs. Do not use global cleanup or delete profiles as routine recovery. Tools that drive a browser through their own direct-CDP helper do not use this CLI.
 
 Load the relevant reference:
 

@@ -132,6 +132,10 @@ if [[ ! -x "$PYTHON_BIN" ]]; then
   trap - EXIT
 fi
 
+if ! "$PYTHON_BIN" -m pip --version >/dev/null 2>&1; then
+  "$PYTHON_BIN" -m ensurepip --upgrade >/dev/null
+fi
+
 CURRENT_INSTALL_SPEC=""
 if [[ -f "$INSTALL_SPEC_FILE" ]]; then
   CURRENT_INSTALL_SPEC="$(cat "$INSTALL_SPEC_FILE")"

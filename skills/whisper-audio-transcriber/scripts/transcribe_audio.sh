@@ -5,7 +5,7 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  transcribe_audio.sh [--language it|en] [--model /path/to/model.bin] /absolute/path/to/audio
+  transcribe_audio.sh [--language <code>] [--model /path/to/model.bin] /absolute/path/to/audio
 
 Behavior:
   - creates a timestamped output folder next to the source audio
@@ -65,8 +65,8 @@ if [[ "$audio" != /* ]]; then
   audio="$(cd "$(dirname "$audio")" && pwd)/$(basename "$audio")"
 fi
 
-if [[ "$language" != "it" && "$language" != "en" ]]; then
-  echo "Unsupported language: $language (use it or en)" >&2
+if [[ ! "$language" =~ ^[A-Za-z]{2,3}(-[A-Za-z]{2,4})?$ ]]; then
+  echo "Unsupported language code: $language" >&2
   exit 1
 fi
 

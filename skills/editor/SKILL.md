@@ -11,4 +11,4 @@ For technical Markdown, retain formatting, code logic and identifiers. Correct o
 
 Return the corrected text or edit the requested file. Add notes only for substantive decisions or unresolved issues. Leave effective wording intact; a review request alone does not require a rewrite.
 
-Use the specialized Humanizer workflow when the requested goal is to remove formulaic AI-style prose.
+When the requested goal is to remove formulaic AI-style prose, use the `stop-slop` skill if it is available.
