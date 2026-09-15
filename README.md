@@ -43,7 +43,7 @@ commit and push them, then run the update command on each device.
 - `vtt-transcript-recap`: Validate local VTT transcripts, review ASR corrections, and produce meeting recaps or study documents.
 - `whisper-audio-transcriber`: Transcribe local audio with whisper.cpp.
 - `yagni`: Apply explicit YAGNI-focused simplification to software work.
-- `youtube-to-obsidian-raw`: Capture a YouTube video as an Obsidian source note.
+- `youtube-to-markdown`: Convert a YouTube video into a Markdown file with metadata, chapters and transcript.
 
 ## Layout
 
