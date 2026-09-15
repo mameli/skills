@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube to Markdown"
+  short_description: "Convert a YouTube video into a Markdown file with metadata and transcript"
+  default_prompt: "Convert this YouTube video into a Markdown file in the current directory, including metadata, description and transcript when available."
