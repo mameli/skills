@@ -45,6 +45,18 @@ commit and push them, then run the update command on each device.
 - `yagni`: Apply explicit YAGNI-focused simplification to software work.
 - `youtube-to-markdown`: Convert a YouTube video into a Markdown file with metadata, chapters and transcript.
 
+## External skills
+
+Skills maintained in other repositories that pair well with this set:
+
+```sh
+npx skills add https://github.com/hardikpandya/stop-slop --skill stop-slop
+```
+
+```sh
+npx skills@latest add mattpocock/skills --skill=setup-matt-pocock-skills
+```
+
 ## Layout
 
 Each skill lives in `skills/<name>/` and contains a required `SKILL.md` plus
