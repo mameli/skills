@@ -8,7 +8,9 @@ require "time"
 MANAGED_PROMPTS = [
   ["handy_config_cleanup", "Clean Up Transcription", "prompt.md"],
   ["handy_config_translate_to_english", "Translate to English", "translate-to-english.md"],
-  ["handy_config_translate_to_x", "Translate to X", "translate-to-x.md"]
+  ["handy_config_translate_to_x", "Translate to X", "translate-to-x.md"],
+  ["handy_config_compose_x_post", "Compose X Post", "compose-x-post.md"],
+  ["handy_config_compose_text", "Compose Text", "compose-text.md"]
 ].freeze
 
 options = {
@@ -17,7 +19,7 @@ options = {
 
 OptionParser.new do |parser|
   parser.banner = "Usage: sync_handy_prompts.rb --repo PATH [--settings PATH]"
-  parser.on("--repo PATH", "Path to the handy-config repository") { |value| options[:repo] = value }
+  parser.on("--repo PATH", "Path to the dimmela-config repository") { |value| options[:repo] = value }
   parser.on("--settings PATH", "Path to Handy's settings_store.json") { |value| options[:settings] = value }
 end.parse!
 
@@ -75,7 +77,7 @@ File.open(backup_path, "wb", File.stat(settings_path).mode & 0o777) do |backup|
   backup.write(File.binread(settings_path))
 end
 
-temporary_path = "#{settings_path}.tmp-handy-prompt-sync-#{Process.pid}"
+temporary_path = "#{settings_path}.tmp-dimmela-prompt-sync-#{Process.pid}"
 begin
   File.open(temporary_path, "wb", File.stat(settings_path).mode & 0o777) do |temporary|
     temporary.write(JSON.pretty_generate(document))

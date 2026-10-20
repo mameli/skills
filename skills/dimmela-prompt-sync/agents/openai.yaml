@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dimmela Prompt Sync"
+  short_description: "Safely sync local prompts into Handy"
+  default_prompt: "Use $dimmela-prompt-sync to update Handy with the prompts from my dimmela-config repository."

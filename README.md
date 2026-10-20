@@ -33,9 +33,9 @@ commit and push them, then run the update command on each device.
 
 ## Included skills
 
+- `dimmela-prompt-sync`: Safely sync Markdown prompts from dimmela-config into Handy on macOS.
 - `editor`: Proofread or simplify prose and technical Markdown.
 - `file-to-markdown`: Convert local PDF and Office files to Markdown.
-- `handy-prompt-sync`: Safely sync Markdown prompts into Handy on macOS.
 - `infuse-metadata-season`: Rename TV and anime files for Infuse matching.
 - `italian-english-translator`: Translate between Italian and English.
 - `markdown-to-pdf-export`: Export Markdown with a compact Pandoc/XeLaTeX profile.
