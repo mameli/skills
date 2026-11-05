@@ -2,10 +2,13 @@
 """Turn a YouTube video into a single Markdown file.
 
 Usage:
-    youtube_to_markdown.py <youtube-url> [output-dir-or-file] [--langs it,en] [--no-transcript]
+    youtube_to_markdown.py <youtube-url> [output-dir-or-file] [--langs it,en]
+                           [--no-transcript] [--no-takku]
 
 Requirements: python3 and yt-dlp on PATH.
 Works on macOS, Linux and Windows (any Python 3.8+).
+Optional: when the video has no captions and `takku` is on PATH (macOS), the
+audio is downloaded and transcribed locally by Takku.
 """
 
 from __future__ import annotations
@@ -80,6 +83,50 @@ def fetch_subtitle(url: str, video_id: str, kind: str, lang: str, work: Path):
     return hits[0] if hits else None
 
 
+def takku_transcript(url: str, title: str) -> str:
+    """Transcribe the video's audio with Takku; empty string on any failure."""
+    takku = shutil.which("takku")
+    if takku is None:
+        return ""
+    print("no captions found, transcribing the audio with Takku...", file=sys.stderr)
+    # macOS asks Takku for access to Desktop, Documents and Downloads: download next
+    # to its own files.
+    work = Path.home() / "Movies" / "Takku"
+    work.mkdir(parents=True, exist_ok=True)
+    cmd = ["yt-dlp", "--no-playlist", "--no-warnings", "-f", "ba[ext=m4a]/ba"]
+    if shutil.which("ffmpeg"):
+        cmd += ["-x", "--audio-format", "m4a"]
+    cmd += ["-o", str(work / "%(id)s.%(ext)s"), "--print", "after_move:filepath", url]
+    proc = subprocess.run(cmd, capture_output=True, text=True)
+    lines = proc.stdout.strip().splitlines()
+    audio = Path(lines[-1]) if lines else None
+    if proc.returncode != 0 or audio is None or not audio.is_file():
+        print(f"warning: audio download failed:\n{proc.stderr.strip()}", file=sys.stderr)
+        return ""
+    # The transcript profile writes no summary: the audio never leaves the Mac.
+    try:
+        proc = subprocess.run(
+            [takku, "import", str(audio), "--profile", "transcript",
+             "--title", title, "--folder", "YouTube", "--json"],
+            stdout=subprocess.PIPE, text=True,  # stderr (progress) goes to the terminal
+        )
+    finally:
+        audio.unlink(missing_ok=True)  # Takku keeps its own copy
+    try:
+        result = json.loads(proc.stdout)[0]
+    except (ValueError, IndexError, KeyError, TypeError):
+        result = {}
+    text = result.get("transcript") or ""
+    if not text.strip():
+        error = result.get("error") or f"takku exited with status {proc.returncode}"
+        print(f"warning: Takku transcription failed: {error}", file=sys.stderr)
+        return ""
+    text = re.sub(r"\A---\n.*?\n---[ \t]*(\n|\Z)", "", text, flags=re.S).strip()
+    if not text:
+        print("warning: Takku found no speech in the audio", file=sys.stderr)
+    return text
+
+
 TIMECODE = re.compile(r"^\d{2}:\d{2}:\d{2}[.,]\d{3} -->")
 
 
@@ -149,7 +196,9 @@ def build_markdown(data: dict, transcript: str, lang: str, kind: str) -> str:
     out.append(f"created: {datetime.now().strftime('%Y-%m-%d')}")
     if duration:
         out.append(f"duration: {yaml_str(duration)}")
-    if transcript:
+    if kind == "takku":
+        out.append("transcript: takku")
+    elif transcript:
         out.append(f"transcript: {yaml_str(f'{lang} ({kind})')}")
     else:
         out.append("transcript: none")
@@ -162,8 +211,11 @@ def build_markdown(data: dict, transcript: str, lang: str, kind: str) -> str:
     out += ["---", "", f"# {title}", ""]
 
     if transcript:
-        label = "manual subtitles" if kind == "manual" else "auto-generated subtitles"
-        out.append(f"> Transcript: `{lang}` ({label}).")
+        if kind == "takku":
+            out.append("> Transcript: audio transcribed locally by Takku (no captions available).")
+        else:
+            label = "manual subtitles" if kind == "manual" else "auto-generated subtitles"
+            out.append(f"> Transcript: `{lang}` ({label}).")
     else:
         out.append("> No transcript available; metadata and description only.")
     out.append("")
@@ -190,6 +242,8 @@ def main() -> int:
                         help="preferred caption languages, comma separated")
     parser.add_argument("--no-transcript", action="store_true",
                         help="skip captions, metadata only")
+    parser.add_argument("--no-takku", action="store_true",
+                        help="without captions, do not fall back to Takku")
     args = parser.parse_args()
 
     if shutil.which("yt-dlp") is None:
@@ -212,6 +266,10 @@ def main() -> int:
                     if text:
                         transcript, used_lang, used_kind = text, lang, kind
                         break
+            if not transcript and not args.no_takku:
+                transcript = takku_transcript(args.url, data.get("title") or video_id)
+                if transcript:
+                    used_kind = "takku"
 
     out_arg = Path(os.path.expanduser(args.output))
     if out_arg.suffix.lower() == ".md":
