@@ -78,7 +78,8 @@ optional scripts, references, assets, and OpenAI metadata.
 ## Site
 
 `site/` is a static page that lists the skills and builds the install command.
-Vercel deploys it to `skills.mameli.dev` with `site` as the root directory. When
+GitHub Pages publishes it at <https://mameli.github.io/skills/> through
+`.github/workflows/pages.yml` on every push to `main` that touches `site/`. When
 you add a skill, add it to the `groups` list in `site/index.html`.
 
 ## Requirements
