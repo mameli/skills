@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skills, Mameli</title>
+  <meta name="description" content="Small agent skills for Claude Code, Codex and other tools that read SKILL.md. Pick the ones you need and copy one install command.">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon-180x180.png">
+  <link rel="preload" href="fonts/EBGaramond-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: "EB Garamond";
+      src: url("fonts/EBGaramond-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "EB Garamond";
+      src: url("fonts/EBGaramond-SemiBold.woff2") format("woff2");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #faf8f3;
+      --ink: #1c1a17;
+      --muted: #6b665c;
+      --line: #e4e0d6;
+      --hover: #f2efe7;
+      --accent: #166534;
+      --accent-ink: #ffffff;
+      --serif: "EB Garamond", Garamond, Georgia, serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141412;
+        --ink: #ece8df;
+        --muted: #9a958a;
+        --line: #2c2a26;
+        --hover: #1c1b18;
+        --accent: #7fc79a;
+        --accent-ink: #0f1a13;
+        color-scheme: dark;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    a { color: inherit; text-underline-offset: 0.2em; text-decoration-color: var(--line); }
+    a:hover { text-decoration-color: currentColor; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    code { font-family: var(--mono); font-size: 0.82em; }
+
+    .page {
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: 0 1.5rem 10rem;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+    .top nav { display: flex; gap: 1.25rem; }
+
+    .head { padding: 3.5rem 0 2.5rem; }
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.75rem, 8vw, 3.75rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .intro { margin: 0; max-width: 34rem; color: var(--muted); font-size: 1.1875rem; }
+
+    .group + .group { margin-top: 2.75rem; }
+    .group h2 {
+      margin: 0 0 0.25rem;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .list { border-top: 1px solid var(--line); }
+
+    .skill {
+      display: grid;
+      grid-template-columns: 1.1rem 1fr;
+      gap: 0 1rem;
+      padding: 0.95rem 0.5rem;
+      margin: 0 -0.5rem;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .skill:hover { background: var(--hover); }
+    .skill:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    .skill input {
+      appearance: none;
+      width: 1.1rem;
+      height: 1.1rem;
+      margin: 0.2rem 0 0;
+      border: 1.5px solid var(--muted);
+      border-radius: 0.2rem;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+    }
+    .skill input:focus-visible { outline: none; }
+    .skill input::after {
+      content: "";
+      width: 0.55rem;
+      height: 0.3rem;
+      border: solid var(--accent-ink);
+      border-width: 0 0 2px 2px;
+      transform: translateY(-0.05rem) rotate(-45deg);
+      opacity: 0;
+    }
+    .skill input:checked { background: var(--accent); border-color: var(--accent); }
+    .skill input:checked::after { opacity: 1; }
+
+    .name { font: 600 0.95rem/1.5 var(--mono); overflow-wrap: anywhere; }
+    .skill:has(input:checked) .name { color: var(--accent); }
+    .desc { margin: 0.1rem 0 0; grid-column: 2; }
+    .req { grid-column: 2; color: var(--muted); font-size: 0.95rem; }
+
+    .colophon {
+      margin-top: 3.5rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    .colophon p { margin: 0.25rem 0; }
+
+    .tray {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 2;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+    .tray-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.4rem 1.5rem;
+      align-items: center;
+      max-width: 44rem;
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem 1rem;
+    }
+    .tray-count { margin: 0; color: var(--muted); font-size: 1rem; }
+    .tray pre {
+      grid-column: 1;
+      margin: 0;
+      font: 0.85rem/1.5 var(--mono);
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      max-height: 4.5em;
+      overflow-y: auto;
+    }
+    .tray pre span { white-space: nowrap; }
+    .tray-actions {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .copy {
+      padding: 0.6rem 1rem;
+      border: 0;
+      border-radius: 0.25rem;
+      background: var(--accent);
+      color: var(--accent-ink);
+      font: 600 1rem/1 var(--serif);
+      cursor: pointer;
+    }
+    .copy:hover { filter: brightness(1.1); }
+
+    .clear {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      font: 1rem/1 var(--serif);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      cursor: pointer;
+    }
+    .clear[hidden] { display: none; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 36rem) {
+      .page { padding-inline: 1rem; }
+      .tray-inner { padding: 0.8rem 1rem 0.9rem; }
+      .tray pre { grid-column: 1 / -1; grid-row: 2; }
+      .tray-actions { grid-row: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a href="https://mameli.dev">mameli.dev</a>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/mameli/skills">GitHub</a>
+        <a href="https://mameli.dev">Blog</a>
+      </nav>
+    </header>
+
+    <div class="head">
+      <h1>Skills</h1>
+      <p class="intro"><span id="total">Twelve</span> small agent skills for Claude Code, Codex and other tools that read <code>SKILL.md</code>. Each one does one job. Pick the ones you need and copy one install command.</p>
+    </div>
+
+    <main id="list" aria-label="Skills"></main>
+
+    <footer class="colophon">
+      <p>Every skill is a folder with a <code>SKILL.md</code> file. Read them before you install.</p>
+      <p>MIT license. Made by <a href="https://mameli.dev">Mameli</a>.</p>
+    </footer>
+  </div>
+
+  <section class="tray" aria-label="Install command">
+    <div class="tray-inner">
+      <p class="tray-count" id="count"></p>
+      <pre id="command"></pre>
+      <div class="tray-actions">
+        <button type="button" class="clear" id="clear" hidden>Clear</button>
+        <button type="button" class="copy" id="copy">Copy</button>
+      </div>
+    </div>
+    <p class="sr-only" id="status" role="status"></p>
+  </section>
+
+  <script>
+    // Add a skill: one line in its group. "requires" is what the skill needs on your machine.
+    const groups = [
+      ["Writing", [
+        ["editor", "Proofreads or simplifies prose and technical Markdown and keeps your meaning and voice.", "Nothing"],
+        ["ste-writer", "Rewrites technical English in short, literal sentences. Inspired by ASD-STE100.", "Nothing"],
+        ["italian-english-translator", "Translates between Italian and English and keeps register, terms and formatting.", "Nothing"],
+      ]],
+      ["Files and transcripts", [
+        ["file-to-markdown", "Converts PDF and Office files to Markdown.", "Python, Java for PDFs"],
+        ["youtube-to-markdown", "Saves a YouTube video as Markdown with metadata, chapters and transcript (captions, or Takku from the audio).", "Python 3, yt-dlp, optional Takku"],
+        ["markdown-to-pdf-export", "Exports Markdown to a compact PDF.", "Pandoc, XeLaTeX"],
+        ["whisper-audio-transcriber", "Transcribes local audio. Italian by default.", "whisper.cpp, ffmpeg, a GGML model"],
+        ["vtt-transcript-recap", "Cleans a VTT transcript, flags speech-recognition errors and writes a meeting recap.", "Python 3"],
+      ]],
+      ["Code", [
+        ["yagni", "Cuts a design or an implementation down to what you need now. Runs only when you ask for it.", "Nothing"],
+        ["playwright-cli", "Drives a browser with Playwright CLI when you ask for it by name.", "Playwright CLI"],
+      ]],
+      ["Mac apps", [
+        ["dimmela-prompt-sync", "Syncs your Markdown prompts into the settings of Handy, the dictation app.", "macOS, Handy, Ruby"],
+        ["infuse-metadata-season", "Renames TV and anime episodes so that Infuse matches them.", "Nothing"],
+      ]],
+    ];
+
+    const words = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+    const spell = (n) => words[n] ?? String(n);
+
+    const list = document.getElementById("list");
+    const command = document.getElementById("command");
+    const count = document.getElementById("count");
+    const status = document.getElementById("status");
+    const clear = document.getElementById("clear");
+    const copy = document.getElementById("copy");
+
+    const total = groups.reduce((sum, [, skills]) => sum + skills.length, 0);
+    document.getElementById("total").textContent = spell(total);
+
+    for (const [title, skills] of groups) {
+      const rows = skills.map(([name, text, requires]) => `
+        <label class="skill">
+          <input type="checkbox" value="${name}">
+          <span class="name">${name}</span>
+          <span class="desc">${text}</span>
+          <span class="req">Requires: ${requires}</span>
+        </label>`).join("");
+      list.insertAdjacentHTML("beforeend", `
+        <section class="group" aria-label="${title}">
+          <h2>${title}</h2>
+          <div class="list">${rows}</div>
+        </section>`);
+    }
+
+    function render() {
+      const picked = [...list.querySelectorAll("input:checked")].map((input) => input.value);
+      const flags = picked.length && picked.length < total ? picked.map((name) => `--skill ${name}`) : ["--skill '*'"];
+      // Keep each flag on one line when the command wraps.
+      command.innerHTML = ["npx skills@latest add mameli/skills", ...flags]
+        .map((part) => `<span>${part}</span>`).join(" ");
+      count.textContent = picked.length === 0
+        ? `Nothing selected: installs all ${total}`
+        : `${picked.length} of ${total} selected`;
+      clear.hidden = picked.length === 0;
+      status.textContent = "";
+    }
+
+    list.addEventListener("change", render);
+
+    clear.addEventListener("click", () => {
+      for (const box of list.querySelectorAll("input:checked")) box.checked = false;
+      render();
+      copy.focus();
+    });
+
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(command.textContent);
+        copy.textContent = "Copied";
+        status.textContent = "Install command copied.";
+      } catch {
+        copy.textContent = "Copy failed";
+        status.textContent = "Copy failed. Select the command and copy it by hand.";
+      }
+      setTimeout(() => { copy.textContent = "Copy"; }, 1600);
+    });
+
+    render();
+  </script>
+</body>
+</html>

@@ -40,6 +40,7 @@ commit and push them, then run the update command on each device.
 - `italian-english-translator`: Translate between Italian and English.
 - `markdown-to-pdf-export`: Export Markdown with a compact Pandoc/XeLaTeX profile.
 - `playwright-cli`: Automate a browser when Playwright CLI is explicitly requested.
+- `ste-writer`: Write technical English in a simplified, controlled style inspired by [ASD-STE100](https://www.asd-ste100.org/).
 - `vtt-transcript-recap`: Validate local VTT transcripts, review ASR corrections, and produce meeting recaps or study documents.
 - `whisper-audio-transcriber`: Transcribe local audio with whisper.cpp.
 - `yagni`: Apply explicit YAGNI-focused simplification to software work.
@@ -57,10 +58,28 @@ npx skills add https://github.com/hardikpandya/stop-slop --skill stop-slop
 npx skills@latest add mattpocock/skills --skill=setup-matt-pocock-skills
 ```
 
+```sh
+npx skills@latest add anthropics/skills --skill frontend-design
+```
+
+```sh
+npx skills@latest add pbakaus/impeccable
+```
+
+```sh
+npx skills@latest add github/awesome-copilot --skill documentation-writer
+```
+
 ## Layout
 
 Each skill lives in `skills/<name>/` and contains a required `SKILL.md` plus
 optional scripts, references, assets, and OpenAI metadata.
+
+## Site
+
+`site/` is a static page that lists the skills and builds the install command.
+Vercel deploys it to `skills.mameli.dev` with `site` as the root directory. When
+you add a skill, add it to the `groups` list in `site/index.html`.
 
 ## Requirements
 
