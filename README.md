@@ -70,6 +70,25 @@ npx skills@latest add pbakaus/impeccable
 npx skills@latest add github/awesome-copilot --skill documentation-writer
 ```
 
+A selection from [pstack](https://github.com/cursor/plugins/tree/main/pstack)
+(cursor/plugins) that does not depend on its model configuration or on
+Cursor-only features:
+
+```sh
+npx skills@latest add cursor/plugins --skill how why teach architect \
+  blast-radius correct sharpen in-your-own-words bro ketchup technical-writing \
+  principle-fix-root-causes principle-prove-it-works \
+  principle-attack-the-premise principle-type-system-discipline statechart \
+  principle-explain-the-number benchmark-checklist
+```
+
+`statechart` needs Node 22.18 or later (or Bun, or Deno) and
+[mise](https://mise.jdx.dev/): the first run uses mise to install TLC and Java.
+
+The skill names must reach the CLI as separate arguments. If none match, it
+installs every skill in the repository, all 60, including a `tdd` that replaces
+Matt Pocock's.
+
 ## Layout
 
 Each skill lives in `skills/<name>/` and contains a required `SKILL.md` plus
