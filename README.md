@@ -52,7 +52,7 @@ commit and push them, then run the update command on each device.
 Skills maintained in other repositories that pair well with this set:
 
 ```sh
-npx skills add https://github.com/hardikpandya/stop-slop --skill stop-slop
+npx skills@latest add blader/humanizer --skill humanizer
 ```
 
 ```sh
