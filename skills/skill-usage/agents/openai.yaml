@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Usage"
+  short_description: "See which skills you use and which to remove"
+  default_prompt: "Use $skill-usage to show which skills I use most and suggest which ones to remove."

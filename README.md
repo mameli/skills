@@ -40,6 +40,7 @@ commit and push them, then run the update command on each device.
 - `italian-english-translator`: Translate between Italian and English.
 - `markdown-to-pdf-export`: Export Markdown with a compact Pandoc/XeLaTeX profile.
 - `playwright-cli`: Automate a browser when Playwright CLI is explicitly requested.
+- `skill-usage`: Count how often each installed skill is used, from local Claude Code and Codex transcripts, and suggest a cleanup.
 - `ste-writer`: Write technical English in a simplified, controlled style inspired by [ASD-STE100](https://www.asd-ste100.org/).
 - `vtt-transcript-recap`: Validate local VTT transcripts, review ASR corrections, and produce meeting recaps or study documents.
 - `whisper-audio-transcriber`: Transcribe local audio with whisper.cpp.
@@ -60,14 +61,6 @@ npx skills@latest add mattpocock/skills --skill=setup-matt-pocock-skills
 
 ```sh
 npx skills@latest add anthropics/skills --skill frontend-design
-```
-
-```sh
-npx skills@latest add pbakaus/impeccable
-```
-
-```sh
-npx skills@latest add github/awesome-copilot --skill documentation-writer
 ```
 
 A selection from [pstack](https://github.com/cursor/plugins/tree/main/pstack)

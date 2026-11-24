@@ -236,7 +236,7 @@
 
     <div class="head">
       <h1>Skills</h1>
-      <p class="intro"><span id="total">Twelve</span> small agent skills for Claude Code, Codex and other tools that read <code>SKILL.md</code>. Each one does one job. Pick the ones you need and copy one install command.</p>
+      <p class="intro"><span id="total">Thirteen</span> small agent skills for Claude Code, Codex and other tools that read <code>SKILL.md</code>. Each one does one job. Pick the ones you need and copy one install command.</p>
     </div>
 
     <main id="list" aria-label="Skills"></main>
@@ -277,6 +277,7 @@
       ["Code", [
         ["yagni", "Cuts a design or an implementation down to what you need now. Runs only when you ask for it.", "Nothing"],
         ["playwright-cli", "Drives a browser with Playwright CLI when you ask for it by name.", "Playwright CLI"],
+        ["skill-usage", "Shows how often you use each installed skill, from local Claude Code and Codex transcripts, and which ones to remove.", "Python 3"],
       ]],
       ["Mac apps", [
         ["dimmela-prompt-sync", "Syncs your Markdown prompts into the settings of Handy, the dictation app.", "macOS, Handy, Ruby"],
@@ -284,7 +285,7 @@
       ]],
     ];
 
-    const words = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+    const words = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen"];
     const spell = (n) => words[n] ?? String(n);
 
     const list = document.getElementById("list");
